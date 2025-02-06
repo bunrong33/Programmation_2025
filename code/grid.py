@@ -72,12 +72,15 @@ class Grid():
         """
         Plots a visual representation of the grid.
         """
+
         # TODO
 
     def is_forbidden(self, i, j):
         """
         Returns True is the cell (i, j) is black and False otherwise
         """
+        if self.color[i][j]== 4:
+            return True
         # TODO
 
     def cost(self, pair):
@@ -94,6 +97,10 @@ class Grid():
         cost: int
             the cost of the pair defined as the absolute value of the difference between their values
         """
+        (i1, j1), (i2, j2) = pair
+        if abs((i1-i2)) + abs(j1-j2) == 1:
+            return abs(self.value[i1][j1]-self.value[i2][j2])
+        return None
         # TODO
 
 
@@ -103,6 +110,28 @@ class Grid():
 
         Outputs a list of tuples of tuples [(c1, c2), (c1', c2'), ...] where each cell c1 etc. is itself a tuple (i, j)
         """
+        liste_possible = []
+        color_match = {0:{0,1,2,3},
+                       1:{0,1,2},
+                       2:{0,1,2},
+                       3:{0,3},
+                       }
+        for i in range(self.n):
+            for j in range(self.m):
+                c1 = self.color[i][j]
+                if c1 == 4: # Sauter le noir
+                    continue
+                # verifier le voisin horizontal
+                if j + 1 < self.m:
+                    c2 = self.color[i][j+1]
+                    if c2 in color_match.get(c1):
+                        liste_possible.append(((i,j),(i,j+1)))
+                # verifier le voisin vertical
+                if i + 1 < self.n : 
+                    c2 = self.color[i+1][j]
+                    if c2 in color_match.get(c1):
+                        liste_possible(((i,j),(i+1,j)))
+        return liste_possible
         # TODO
     
 
