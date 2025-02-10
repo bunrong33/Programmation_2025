@@ -1,6 +1,7 @@
 """
 This is the grid module. It contains the Grid class and its associated methods.
 """
+import matplotlib.pyplot as plt
 
 class Grid():
     """
@@ -72,7 +73,37 @@ class Grid():
         """
         Plots a visual representation of the grid.
         """
+        fig, ax = plt.subplots(figsize=(self.m, self.n))
 
+        # Define color mapping (Matplotlib colors corresponding to self.colors_list)
+        color_mapping = {
+            0: 'white',  # White
+            1: 'red',    # Red
+            2: 'blue',   # Blue
+            3: 'green',  # Green
+            4: 'black'   # Black
+        }
+
+        # Create the grid visualization
+        for i in range(self.n):
+            for j in range(self.m):
+                facecolor = color_mapping.get(self.color[i][j], 'gray')  # Default to gray if missing
+                rect = plt.Rectangle((j, self.n - 1 - i), 1, 1, linewidth=1, edgecolor='black', facecolor=facecolor)
+                ax.add_patch(rect)
+                text_color = 'black' if self.color[i][j] != 4 else 'white'
+                ax.text(j + 0.5, self.n - 1 - i + 0.5, str(self.value[i][j]), ha='center', va='center', fontsize=12, color=text_color)
+
+        # Formatting the grid
+        ax.set_xlim(0, self.m)
+        ax.set_ylim(0, self.n)
+        ax.set_xticks(range(self.m))
+        ax.set_yticks(range(self.n))
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.grid(True, which='both', color='black', linewidth=1)
+        ax.set_frame_on(False)
+
+        plt.show()
         # TODO
 
     def is_forbidden(self, i, j):
@@ -130,11 +161,10 @@ class Grid():
                 if i + 1 < self.n : 
                     c2 = self.color[i+1][j]
                     if c2 in color_match.get(c1):
-                        liste_possible(((i,j),(i+1,j)))
+                        liste_possible.append(((i,j),(i+1,j)))
         return liste_possible
         # TODO
     
-
 
 
     @classmethod
