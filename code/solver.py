@@ -39,14 +39,14 @@ class SolverGreedy(Solver):
 
     def __init__(self, grid):
         super().__init__(grid)
-        self.selected_pairs = []  # Store selected pairs
+        self.selected_pairs = []  
 
     def run(self):
         """
-        Implements a greedy algorithm to select the best pairs minimizing cost.
+        Greedy algorithm en trouvant la meilleure couple
         """
-        all_pairs = self.grid.all_pairs()  # Get all valid pairs
-        all_pairs.sort(key=self.grid.cost)  # Sort pairs by increasing cost
+        all_pairs = self.grid.all_pairs()  # Si la paire est valide
+        all_pairs.sort(key = self.grid.cost)  
 
         used_cells = set()
         for pair in all_pairs:
@@ -57,14 +57,16 @@ class SolverGreedy(Solver):
                 used_cells.add((i2, j2))
 
     def score(self):
-        """Computes the total cost of the selected pairs."""
+        """Le coût total de somme de toute paire"""
         total_cost = sum(self.grid.cost(pair) for pair in self.selected_pairs)
         used_cells = set(cell for pair in self.selected_pairs for cell in pair)
 
-        # Add unpaired cell values except for black cells
+        # Ajouter des valeurs de cellules non appariées, sauf pour les cellules noires
         for i in range(self.grid.n):
             for j in range(self.grid.m):
                 if (i, j) not in used_cells and not self.grid.is_forbidden(i, j):
                     total_cost += self.grid.value[i][j]
 
         return total_cost
+
+    

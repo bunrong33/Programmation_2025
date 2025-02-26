@@ -51,6 +51,7 @@ class Grid():
         self.value = value
         self.colors_list = ['w', 'r', 'b', 'g', 'k']
 
+
     def __str__(self): 
         """
         Prints the grid as text.
@@ -75,7 +76,7 @@ class Grid():
         """
         fig, ax = plt.subplots(figsize=(self.m, self.n))
 
-        # Define color mapping (Matplotlib colors corresponding to self.colors_list)
+        # On definit le couleur comme la dictionaire
         color_mapping = {
             0: 'white',  # White
             1: 'red',    # Red
@@ -84,16 +85,15 @@ class Grid():
             4: 'black'   # Black
         }
 
-        # Create the grid visualization
+        # Créer la visualisation du grille 
         for i in range(self.n):
             for j in range(self.m):
-                facecolor = color_mapping.get(self.color[i][j], 'gray')  # Default to gray if missing
+                facecolor = color_mapping.get(self.color[i][j], 'gray')  # Si le colonne est manqué, on met gris
                 rect = plt.Rectangle((j, self.n - 1 - i), 1, 1, linewidth=1, edgecolor='black', facecolor=facecolor)
                 ax.add_patch(rect)
                 text_color = 'black' if self.color[i][j] != 4 else 'white'
-                ax.text(j + 0.5, self.n - 1 - i + 0.5, str(self.value[i][j]), ha='center', va='center', fontsize=12, color=text_color)
+                ax.text(j + 0.5, self.n - 1 - i + 0.5, str(self.value[i][j]), ha='center', va='center', fontsize=30, color=text_color)
 
-        # Formatting the grid
         ax.set_xlim(0, self.m)
         ax.set_ylim(0, self.n)
         ax.set_xticks(range(self.m))
@@ -110,7 +110,7 @@ class Grid():
         """
         Returns True is the cell (i, j) is black and False otherwise
         """
-        if self.color[i][j]== 4:
+        if self.color[i][j] == 4: # Forbidden black
             return True
         # TODO
 
