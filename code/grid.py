@@ -132,7 +132,6 @@ class Grid():
         if abs((i1-i2)) + abs(j1-j2) == 1:
             return abs(self.value[i1][j1]-self.value[i2][j2])
         return None
-        # TODO
 
 
     def all_pairs(self):
