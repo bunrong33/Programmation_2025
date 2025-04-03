@@ -76,3 +76,6 @@ class SolverGreedy(Solver):
                 self.selected_pairs.append(pair)
                 used_cells.add((i1, j1))
                 used_cells.add((i2, j2))
+                
+    def selected_pairs(self):
+        return self.selected_pairs

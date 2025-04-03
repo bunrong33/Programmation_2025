@@ -92,7 +92,7 @@ class Grid():
                 rect = plt.Rectangle((j, self.n - 1 - i), 1, 1, linewidth=1, edgecolor='black', facecolor=facecolor)
                 ax.add_patch(rect)
                 text_color = 'black' if self.color[i][j] != 4 else 'white'
-                ax.text(j + 0.5, self.n - 1 - i + 0.5, str(self.value[i][j]), ha='center', va='center', fontsize=30, color=text_color)
+                ax.text(j + 0.5, self.n - 1 - i + 0.5, str(self.value[i][j]), ha='center', va='center', fontsize=10, color=text_color)
 
         ax.set_xlim(0, self.m)
         ax.set_ylim(0, self.n)

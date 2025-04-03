@@ -1,168 +1,3 @@
-# # -------------------------------------------
-# class Graph_Ford_Fulkerson:
-#     def __init__(self, n):
-#         self.n = n
-#         self.adjacency = [[0] * n for _ in range(n)]  # Adjacency matrix representation of the graph
-
-#     def set_edge(self, u, v, capacity):
-#         self.adjacency[u][v] = capacity
-
-#     def bfs(self, source, sink, parent):
-#         visited = [False] * self.n
-#         queue = [source]  # Use a standard list as a queue
-#         visited[source] = True
-
-#         while queue:
-#             u = queue.pop(0)  # Dequeue the first element
-#             for v in range(self.n):
-#                 if not visited[v] and self.adjacency[u][v] > 0:
-#                     queue.append(v)  # Enqueue the node
-#                     visited[v] = True
-#                     parent[v] = u
-#                     if v == sink:
-#                         return True
-#         return False
-#     def ford_fulkerson(self, source, sink):
-#         parent = [-1] * self.n
-#         max_flow = 0
-#         pairs = []
-
-#         while self.bfs(source, sink, parent):
-#             # Find the minimum residual capacity of the edges along the path
-#             path_flow = float('Inf')
-#             s = sink
-#             while s != source:
-#                 u = parent[s]
-#                 path_flow = min(path_flow, self.adjacency[u][s])
-#                 s = u
-
-#             # Update residual capacities of the edges and reverse edges
-#             s = sink
-#             while s != source:
-#                 u = parent[s]
-#                 self.adjacency[u][s] -= path_flow
-#                 self.adjacency[s][u] += path_flow
-#                 s = u
-
-#             # Add path flow to total flow
-#             max_flow += path_flow
-
-#             # Extract the pair (u, v) from the path
-#             v = sink
-#             while v != source:
-#                 u = parent[v]
-#                 if u != source and v != sink:
-#                     pairs.append((u, v))
-#                 v = u
-
-#         return max_flow, pairs
-
-
-# def node_index(i, j, cols):
-#     return i * cols + j + 1
-
-
-# def is_color_matching(color1, color2):
-#     if color1 == 4 or color2 == 4:  # Black cells cannot be paired
-#         return False
-#     if color1 == 0:  # White can pair with any color except black
-#         return True
-#     if color2 == 0:  # White can pair with any color except black
-#         return True
-#     if color1 == 1:  # Red can pair with white, red, or blue
-#         return color2 in {0, 1, 2}
-#     if color1 == 2:  # Blue can pair with white, red, or blue
-#         return color2 in {0, 1, 2}
-#     if color1 == 3:  # Green can only pair with green or white
-#         return color2 in {0, 3}
-#     return False
-
-# def build_flow(grid):
-#     """
-#     Build a bipartite graph from the grid.
-
-#     Parameters:
-#     -----------
-#     grid: Grid
-#         The grid object.
-
-#     Returns:
-#     --------
-#     graph: Graph
-#         The bipartite graph.
-#     source: int
-#         Source node.
-#     sink: int
-#         Sink node.
-#     """
-#     rows, cols = grid.n, grid.m
-#     total_nodes = rows * cols + 2  # Include source and sink
-#     source, sink = 0, total_nodes - 1
-#     graph = Graph_Ford_Fulkerson(total_nodes)
-
-#     # Iterate over all cells in the grid
-#     for i in range(rows):
-#         for j in range(cols):
-#             if (i + j) % 2 == 0:
-#                 # Cell is in set A (even)
-#                 node_a = node_index(i, j, cols)
-#                 graph.set_edge(source, node_a, 1)  # Connect source to node A
-
-#                 # Check adjacent cells (set B)
-#                 for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-#                     ni, nj = i + di, j + dj
-#                     if 0 <= ni < rows and 0 <= nj < cols:
-#                         node_b = node_index(ni, nj, cols)
-#                         if is_color_matching(grid.color[i][j], grid.color[ni][nj]):
-#                             graph.set_edge(node_a, node_b, 1)  # Connect node A to node B
-#             else:
-#                 # Cell is in set B (odd)
-#                 node_b = node_index(i, j, cols)
-#                 graph.set_edge(node_b, sink, 1)  # Connect node B to sink
-
-#     return graph, source, sink
-
-# def calculate_score(pairs, grid):
-#     """
-#     Calculate the score based on the pairs and the grid.
-
-#     Parameters:
-#     -----------
-#     pairs: list[tuple[int, int]]
-#         List of pairs of matched nodes.
-#     grid: Grid
-#         The grid object.
-
-#     Returns:
-#     --------
-#     score: int
-#         The total score.
-#     """
-    
-#     rows, cols = grid.n, grid.m
-#     paired_cells = set()  # To store cells that are part of a pair
-#     score = 0
-
-#     # Calculate the cost of pairs
-#     for pair in pairs:
-#         u, v = pair
-#         i1, j1 = (u - 1) // cols, (u - 1) % cols  # Convert node index to (i, j)
-#         i2, j2 = (v - 1) // cols, (v - 1) % cols
-#         paired_cells.add((i1, j1))
-#         paired_cells.add((i2, j2))
-#         score += abs(grid.value[i1][j1] - grid.value[i2][j2])  
-
-#     # Calculate the cost of unpaired cells (excluding black cells)
-#     for i in range(rows):
-#         for j in range(cols):
-#             if (i, j) not in paired_cells and grid.color[i][j] != 4:  
-#                 score += grid.value[i][j]  
-
-#     return score
-# ------------------------------------------------------------
-# ==========================================
-
-
 class Graph:
     def __init__(self, n):
         """
@@ -187,12 +22,12 @@ class Graph:
 
     def min_cost_flow(self, source, sink):
         """
-        Compute min-cost max-flow with Bellman-ford Algorithm(Shortest path faster algorithms)
-
+        Compute min-cost max-flow with Bellman-ford Algorithm (Shortest path faster algorithms)
         """
         INF = float('inf')
         total_flow = 0
         total_cost = 0
+        prev_total_cost = INF
 
         while True:
             dist = [INF] * self.n
@@ -234,8 +69,14 @@ class Graph:
                 self.capacity[v][u] += path_flow
                 total_cost += path_flow * self.cost[u][v]
                 v = u
+            
             total_flow += path_flow
-            print(total_cost)
+
+            # Compare previous total_cost and now
+            if total_cost >= prev_total_cost: 
+                break
+            prev_total_cost = total_cost
+            # print(total_cost) 
         return total_flow, total_cost
 
 def node_index(i, j, cols):
@@ -268,9 +109,8 @@ def build_flow(grid):
                     ni, nj = i + di, j + dj
                     if 0 <= ni < rows and 0 <= nj < cols:
                         if is_color_matching(grid.color[i][j], grid.color[ni][nj]):
-                            # weight = abs(grid.value[i][j]-grid.value[ni][nj])
-                            weight = (grid.value[i][j] + grid.value[ni][nj]) - abs(grid.value[i][j] - grid.value[ni][nj])
-                            # weight = 2 * max(grid.value[i][j], grid.value[ni][nj])
+                            # weight = (grid.value[i][j] + grid.value[ni][nj]) - abs(grid.value[i][j] - grid.value[ni][nj])
+                            weight = 2 * min(grid.value[i][j], grid.value[ni][nj])
                             edge_cost = -weight
                             node_b = node_index(ni, nj, cols)
                             graph.set_edge(node_a, node_b, 1, edge_cost)
