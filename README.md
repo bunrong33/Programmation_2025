@@ -15,6 +15,7 @@ Pour atteindre ce but, on applique successivement :
 1. un algorithme **Greedy(glouton)** fournissant une première solution. Mais cela n'est pas sufficient pour attiendre le minimum.
 2. l’algorithme de **Ford–Fulkerson** afin d’obtenir un flot maximal.
 3. puis l’algorithme de **Bellman–Ford** pour trouver le flot de coût minimal.
+![Image](https://github.com/user-attachments/assets/d1a53a65-b8cf-494c-91b7-e43b4b8e884f)
 
 ---
 
