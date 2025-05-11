@@ -1,9 +1,3 @@
-#========================================= Rendu groupe 5 : Lucas Baudin ======================================
-"""
-    Group members: 
-        1. BAN Bunrong
-        2. GOUY WAZ Fabien
-"""
 
 from grid import Grid
 from solver import *
